@@ -70,7 +70,8 @@
             android:text="비콘받기"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/login_btn"
-            android:layout_toEndOf="@+id/login_btn" />
+            android:layout_toEndOf="@+id/login_btn"
+            android:onClick="OnButtonClicked"/>
     </RelativeLayout>
 
     <LinearLayout
