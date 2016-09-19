@@ -34,11 +34,21 @@ public class MainActivity extends Activity {
     String streammsg = "";
     String Str_LoginJson;
     TextView showText;
+    TextView sendText_View;
+    TextView beaconText_View;
+
     Button connectBtn;
     Button Button_send;
+    Button login_Btn;
+    Button beacon_Btn;
+    Button search_Btn;
+
     EditText ip_EditText;
     EditText port_EditText;
     EditText editText_massage;
+    EditText sid_Text;
+    EditText pw_Text;
+
     Handler msghandler;
 
     SocketClient client;
@@ -62,9 +72,17 @@ public class MainActivity extends Activity {
         showText = (TextView) findViewById(R.id.showText_TextView);
         editText_massage = (EditText) findViewById(R.id.editText_massage);
         Button_send = (Button) findViewById(R.id.Button_send);
+
+        sid_Text=(EditText)findViewById(R.id.ID_Text);
+        pw_Text=(EditText) findViewById(R.id.PW_Text);
+        login_Btn =(Button) findViewById(R.id.login_btn);
+        sendText_View= (TextView) findViewById(R.id.sendText_TextView);
+        beaconText_View=(TextView)findViewById(R.id.BeaconList_View);
+        search_Btn=(Button)findViewById(R.id.Serch_btn);
         threadList = new LinkedList<MainActivity.SocketClient>();
 
-        ip_EditText.setText("220.66.60.204");
+
+        ip_EditText.setText("121.139.168.55");
         port_EditText.setText("8888");
 
         // ReceiveThread를통해서 받은 메세지를 Handler로 MainThread에서 처리(외부Thread에서는 UI변경이불가)
@@ -72,7 +90,7 @@ public class MainActivity extends Activity {
             @Override
             public void handleMessage(Message hdmsg) {
                 if (hdmsg.what == 1111) {
-                    showText.append(hdmsg.obj.toString() + "\n");
+                    showText.setText(hdmsg.obj.toString() );
                 }
             }
         };
@@ -104,7 +122,57 @@ public class MainActivity extends Activity {
                 }
             }
         });
+        login_Btn.setOnClickListener(new View.OnClickListener() {
+            DataOutputStream output;
+            @Override
+            public void onClick(View v) {
+                String str_id = sid_Text.getText().toString();
+                String str_pw = pw_Text.getText().toString();
+                try
+                {
+                    LoginJson LJ0 = new LoginJson(str_id,str_pw);
+                    Str_LoginJson = LJ0.str;
+
+                }catch(JSONException e) { }
+                try {
+                    output = new DataOutputStream(socket.getOutputStream());
+                } catch (Exception e) {
+                }
+                if (output != null) {
+                    if (Str_LoginJson != null) {
+                        try {
+                            output.writeUTF(Str_LoginJson);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+
+        search_Btn.setOnClickListener(new View.OnClickListener() {
+            DataOutputStream output;
+            String Str_search = "{\"SEARCH\":["
+                    +"]}";
+            @Override
+            public void onClick(View v) {
+                try {
+                    output = new DataOutputStream(socket.getOutputStream());
+                } catch (Exception e) {}
+                if (output != null) {
+
+                        try {
+                            output.writeUTF(Str_search);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                }
+            }
+        });
     }
+
+
 
     class SocketClient extends Thread {
         boolean threadAlive;
@@ -174,6 +242,7 @@ public class MainActivity extends Activity {
                         hdmsg.obj = msg;
                         msghandler.sendMessage(hdmsg);
                         Log.d(ACTIVITY_SERVICE,hdmsg.obj.toString());
+
                     }
                 }
             } catch (IOException e) {
@@ -184,7 +253,7 @@ public class MainActivity extends Activity {
 
     class SendThread extends Thread {
         private Socket socket;
-        String str_id = "201031009";
+
         String sendmsg = editText_massage.getText().toString();
         DataOutputStream output;
 
@@ -198,12 +267,6 @@ public class MainActivity extends Activity {
         }
 
         public void run() {
-            try
-            {
-                LoginJson LJ0 = new LoginJson(str_id,sendmsg);
-                Str_LoginJson = LJ0.str;
-
-            }catch(JSONException e) { }
 
             try {
 
@@ -216,7 +279,7 @@ public class MainActivity extends Activity {
 
                 if (output != null) {
                     if (sendmsg != null) {
-                        output.writeUTF(Str_LoginJson);
+                        output.writeUTF(sendmsg);
                     }
                 }
             } catch (IOException e) {
