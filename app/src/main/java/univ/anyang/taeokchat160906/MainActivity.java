@@ -321,6 +321,44 @@ public class MainActivity extends Activity implements BeaconConsumer {
 
         String sendmsg = editText_massage.getText().toString();
         DataOutputStream output;
+        String Beacon_json = "{" +
+                "  \"BEACON\": [" +
+                "    {" +
+                "      \"SID\": \"201131046\"," +
+                "      \"PHONE\": \"1062928744\"," +
+                "      \"NOWTIME\": \"16/05/07/13/57\"," +
+                "      \"CLASS_CODE\": \"NA1234\"," +
+                "      \"CLASS_NO\": \"01\"," +
+                "      \"BEACON_CNT\": 4," +
+                "      \"BEACON_INFO\": [" +
+                "        {" +
+                "          \"UUID\": \"1111\"," +
+                "          \"MAJOR\": \"1112\"," +
+                "          \"MINOR\": \"1113\"," +
+                "          \"DISTANCE\": \"1114\"" +
+                "        }," +
+                "        {" +
+                "          \"UUID\": \"2221\"," +
+                "          \"MAJOR\": \"2222\"," +
+                "          \"MINOR\": \"2223\"," +
+                "          \"DISTANCE\": \"2224\"" +
+                "        }," +
+                "        {" +
+                "          \"UUID\": \"3331\"," +
+                "          \"MAJOR\": \"3332\"," +
+                "          \"MINOR\": \"3333\"," +
+                "          \"DISTANCE\": \"3334\"" +
+                "        }," +
+                "        {" +
+                "          \"UUID\": \"4441\"," +
+                "          \"MAJOR\": \"4442\"," +
+                "          \"MINOR\": \"4443\"," +
+                "          \"DISTANCE\": \"4444\"" +
+                "        }" +
+                "      ]" +
+                "    }" +
+                "  ]" +
+                "}";
 
 
         public SendThread(Socket socket) {
@@ -344,7 +382,7 @@ public class MainActivity extends Activity implements BeaconConsumer {
 
                 if (output != null) {
                     if (sendmsg != null) {
-                        output.writeUTF(sendmsg);
+                        output.writeUTF(Beacon_json);
                     }
                 }
             } catch (IOException e) {
