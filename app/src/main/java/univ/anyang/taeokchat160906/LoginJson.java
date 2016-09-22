@@ -19,7 +19,6 @@ public class LoginJson {
         Jobj.put("ID",id);
         Jobj.put("PW",pw);
 
-
         JSONArray List = new JSONArray();
         List.put(Jobj);
 
