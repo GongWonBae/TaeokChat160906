@@ -327,15 +327,17 @@ public class MainActivity extends Activity implements BeaconConsumer {
                 "      \"SID\": \"201131046\"," +
                 "      \"PHONE\": \"1062928744\"," +
                 "      \"NOWTIME\": \"16/05/07/13/57\"," +
-                "      \"CLASS_CODE\": \"NA1234\"," +
+                "      \"CLASS_CODE\": \"AN0044\"," +
                 "      \"CLASS_NO\": \"01\"," +
+                "      \"CLASSROOM\":\"A607\","+
+                "      \"WEEK\" : \"13\","+
                 "      \"BEACON_CNT\": 4," +
                 "      \"BEACON_INFO\": [" +
                 "        {" +
-                "          \"UUID\": \"1111\"," +
-                "          \"MAJOR\": \"1112\"," +
-                "          \"MINOR\": \"1113\"," +
-                "          \"DISTANCE\": \"1114\"" +
+                "          \"UUID\": \"e2c56db5-dffb-48d2-b060-d0f5a71096e0\"," +
+                "          \"MAJOR\": \"1000\"," +
+                "          \"MINOR\": \"2000\"," +
+                "          \"DISTANCE\": \"15\"" +
                 "        }," +
                 "        {" +
                 "          \"UUID\": \"2221\"," +
