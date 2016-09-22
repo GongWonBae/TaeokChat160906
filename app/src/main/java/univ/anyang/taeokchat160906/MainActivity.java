@@ -1,6 +1,7 @@
 package univ.anyang.taeokchat160906;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -13,6 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Region;
 import org.json.JSONException;
 
 import java.io.BufferedReader;
@@ -27,12 +34,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import org.altbeacon.beacon.Beacon;
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
 
 
 
@@ -66,6 +67,8 @@ public class MainActivity extends Activity implements BeaconConsumer {
     SendThread send;
     Socket socket;
 
+    Boolean LoginBoolean;
+
     PipedInputStream sendstream = null;
     PipedOutputStream receivestream = null;
 
@@ -77,6 +80,7 @@ public class MainActivity extends Activity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LoginBoolean = false;
         ////////////////////////////비콘 관련 변수 복붙 /////////////////////////////
 
         // 실제로 비콘을 탐지하기 위한 비콘매니저 객체를 초기화
@@ -116,6 +120,11 @@ public class MainActivity extends Activity implements BeaconConsumer {
             public void handleMessage(Message hdmsg) {
                 if (hdmsg.what == 1111) {
                     showText.setText(hdmsg.obj.toString() );
+                    if(hdmsg.obj.toString().contains("TRUE"))
+                    {
+                        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                        startActivityForResult(intent,1001);
+                    }
                 }
             }
         };
